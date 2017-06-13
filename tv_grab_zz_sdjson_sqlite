@@ -2343,7 +2343,19 @@ sub channelWriter
         $writer->startTag('channel', 'id' => generateRFC2838($sID) ) ;
 
           my $name = '';
-          $name = $s->{'name'} if (defined($s->{'name'}));
+	if ($lineup=~m/OTA/){
+	  if (defined($s->{'affiliate'})){
+          	$name = $s->{'affiliate'} . ' ' . $s->{'callsign'};
+	}else{
+		$name = $s->{'callsign'} if (defined($s->{'callsign'}));
+		}
+
+		
+	} else {
+		$name = $s->{'name'} if (defined($s->{'name'}));
+	}
+
+
           my $callsign = '';
           $callsign = $s->{'callsign'} if (defined($s->{'callsign'}));
           $name = $callsign if ($name eq '');
