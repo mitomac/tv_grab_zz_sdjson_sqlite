@@ -2355,20 +2355,40 @@ sub channelWriter
 
           # Should probably return all stationLogo's, but some applications are
           # known to take the last and not the first, so return only the first
-          if ((defined($s->{'stationLogo'}->[0]->{'URL'})) &&
+	  #
+	  # Modify to take second stationLogo if it exists
+          if ((defined($s->{'stationLogo'}->[1]->{'URL'})) &&
               (!exists($GRABBER_FIXUPS->{'NO_STATION_LOGOS'})))
             {
-              if (defined($s->{'stationLogo'}->[0]->{'width'}) && defined($s->{'stationLogo'}->[0]->{'height'}))
+              if (defined($s->{'stationLogo'}->[1]->{'width'}) && defined($s->{'stationLogo'}->[1]->{'height'}))
                 {
-                  $writer->emptyTag('icon', 'src' => $s->{'stationLogo'}->[0]->{'URL'},
-                                    'width' => $s->{'stationLogo'}->[0]->{'width'},
-                                    'height' => $s->{'stationLogo'}->[0]->{'height'});
+                  $writer->emptyTag('icon', 'src' => $s->{'stationLogo'}->[1]->{'URL'},
+                                    'width' => $s->{'stationLogo'}->[1]->{'width'},
+                                    'height' => $s->{'stationLogo'}->[1]->{'height'});
                 }
               else
                 {
-                  $writer->emptyTag('icon', 'src' => $s->{'stationLogo'}->[0]->{'URL'});
+                  $writer->emptyTag('icon', 'src' => $s->{'stationLogo'}->[1]->{'URL'});
                 }
             }
+	    else
+	    {
+		  if ((defined($s->{'stationLogo'}->[0]->{'URL'})) &&
+		      (!exists($GRABBER_FIXUPS->{'NO_STATION_LOGOS'})))
+		    {
+		      if (defined($s->{'stationLogo'}->[0]->{'width'}) && defined($s->{'stationLogo'}->[0]->{'height'}))
+			{
+			  $writer->emptyTag('icon', 'src' => $s->{'stationLogo'}->[0]->{'URL'},
+					    'width' => $s->{'stationLogo'}->[0]->{'width'},
+					    'height' => $s->{'stationLogo'}->[0]->{'height'});
+			}
+		      else
+			{
+			  $writer->emptyTag('icon', 'src' => $s->{'stationLogo'}->[0]->{'URL'});
+			}
+		    }
+
+	    } 
 
         $writer->endTag('channel');
 
